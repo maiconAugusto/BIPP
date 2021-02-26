@@ -27,6 +27,9 @@ const product = DATABASE.define('product', {
   image_url: {
     type: Sequelize.VIRTUAL,
     get() {
+      if (this.image_id === null) {
+        return null;
+      }
       return `http://localhost:8080/file/${this.image_id}`;
     },
   },

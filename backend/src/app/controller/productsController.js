@@ -9,7 +9,7 @@ class ProductController {
     try {
       const data = await Product.findAll({
         where: {
-          [Op.and]: [{ quantity: { [Op.gt]: 1 } }, { active: true }],
+          [Op.and]: [{ quantity: { [Op.gt]: 0 } }, { active: true }],
         },
       });
       return response.status(200).json({ data });
@@ -30,11 +30,21 @@ class ProductController {
 
   async store(request, response) {
     try {
-      const { path: imagePath, filename: imageId } = request.file;
-      const data = await Product.create({ ...request.body, image_path: imagePath, image_id: imageId });
+      const product = {
+        name: request.body.name,
+        description: request.body.description,
+        price: request.body.price,
+        quantity: request.body.quantity,
+        active: request.body.active,
+        image_path: request.file === undefined ? null : request.file.path,
+        image_id: request.file === undefined ? null : request.file.filename,
+      };
+
+      const data = await Product.create(product);
+
       return response.status(201).json({ data });
     } catch (err) {
-      return response.status(400).json({ data: err });
+      return response.status(400).json({ data: 'aqui' });
     }
   }
 
