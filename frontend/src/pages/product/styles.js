@@ -11,7 +11,7 @@ export const CardContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 350px;
-  height: 390px;
+  height: 420px;
   border-radius: 10px;
   background-color: #6ee790;
 `;

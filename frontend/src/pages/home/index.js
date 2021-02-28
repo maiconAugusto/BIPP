@@ -4,14 +4,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Container, Header, Div, Botton } from './styles';
 import Card from '../../components/card';
 import Text from '../../components/text';
-import * as ACTION from '../../store/module/action/product';
+import * as ACTION_GET from '../../store/module/action/product';
+import * as ACTION_REMOVE from '../../store/module/action/removeProduct';
 
 const Home = (props) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.product.data);
 
   function getProducts() {
-    dispatch(ACTION.RESQUEST());
+    dispatch(ACTION_GET.RESQUEST());
+  }
+
+  function removeProduct(id) {
+    dispatch(ACTION_REMOVE.RESQUEST(id));
   }
 
   useEffect(() => {
@@ -25,7 +30,7 @@ const Home = (props) => {
       </Header>
       <Container>
         <Div>
-          {data.map((item, index) => {
+          {data.map((item) => {
             return (
               <div
                 style={{
@@ -39,12 +44,12 @@ const Home = (props) => {
                   onPress={() =>
                     props.history.push('/produto', { product: item })
                   }
-                  key={toString(index)}
+                  key={item.id}
                   image={item.image_url}
                   name={item.name}
                   price={item.price}
                 />
-                <Botton onClick={() => alert('remove')}>Remover</Botton>
+                <Botton onClick={() => removeProduct(item.id)}>Remover</Botton>
               </div>
             );
           })}

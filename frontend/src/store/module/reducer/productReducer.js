@@ -23,6 +23,11 @@ export default function (state = INITIAL_STATE, action) {
       newState.loading = false;
       return newState;
     }
+    case TYPES.REMOVE_PRODUCT_SUCCESS: {
+      const newState = { ...state, action };
+      newState.data = state.data.filter((item) => item.id !== action.payload);
+      return newState;
+    }
     default: {
       return state;
     }
