@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Header, Div, Botton } from './styles';
+import { Container, Header, Div } from './styles';
 import Card from '../../components/card';
 import Text from '../../components/text';
+import Button from '../../components/button';
 import * as ACTION_GET_PRODUCT from '../../store/module/action/product';
 import * as ACTION_REMOVE_PRODUCT from '../../store/module/action/removeProduct';
 
@@ -50,12 +51,11 @@ const Home = (props) => {
                   name={item.name}
                   price={item.price}
                 />
-                <Botton
+                <Button
+                  text="Remover"
                   disabled={loadingDeleting}
-                  onClick={() => removeProduct(item.id)}
-                >
-                  Remover
-                </Botton>
+                  onPress={() => removeProduct(item.id)}
+                />
               </div>
             );
           })}
