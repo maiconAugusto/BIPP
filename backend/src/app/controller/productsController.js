@@ -44,7 +44,7 @@ class ProductController {
 
       return response.status(201).json({ data });
     } catch (err) {
-      return response.status(400).json({ data: 'aqui' });
+      return response.status(400).json({ data: err });
     }
   }
 
@@ -67,15 +67,19 @@ class ProductController {
   }
 
   async delete(request, response) {
-    const { id } = request.params;
+    try {
+      const { id } = request.params;
 
-    const data = await SearchProductService.run({ id });
+      const data = await SearchProductService.run({ id });
 
-    await Product.destroy({ where: { id } });
+      await Product.destroy({ where: { id } });
 
-    DeleteFile.run({ path: data.image_path });
+      DeleteFile.run({ path: data.image_path });
 
-    return response.status(200).json({ data: 'Produto deletado com sucesso' });
+      return response.status(200).json({ data: 'Produto deletado com sucesso' });
+    } catch (error) {
+      return response.status(404).json({ error: 'Produto não localizado!' });
+    }
   }
 }
 export default new ProductController();
