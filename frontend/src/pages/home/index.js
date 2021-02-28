@@ -4,19 +4,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Container, Header, Div, Botton } from './styles';
 import Card from '../../components/card';
 import Text from '../../components/text';
-import * as ACTION_GET from '../../store/module/action/product';
-import * as ACTION_REMOVE from '../../store/module/action/removeProduct';
+import * as ACTION_GET_PRODUCT from '../../store/module/action/product';
+import * as ACTION_REMOVE_PRODUCT from '../../store/module/action/removeProduct';
 
 const Home = (props) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.product.data);
+  const loadingDeleting = useSelector((state) => state.product.loadingDeleting);
 
   function getProducts() {
-    dispatch(ACTION_GET.RESQUEST());
+    dispatch(ACTION_GET_PRODUCT.RESQUEST());
   }
 
   function removeProduct(id) {
-    dispatch(ACTION_REMOVE.RESQUEST(id));
+    dispatch(ACTION_REMOVE_PRODUCT.RESQUEST(id));
   }
 
   useEffect(() => {
@@ -49,7 +50,12 @@ const Home = (props) => {
                   name={item.name}
                   price={item.price}
                 />
-                <Botton onClick={() => removeProduct(item.id)}>Remover</Botton>
+                <Botton
+                  disabled={loadingDeleting}
+                  onClick={() => removeProduct(item.id)}
+                >
+                  Remover
+                </Botton>
               </div>
             );
           })}
