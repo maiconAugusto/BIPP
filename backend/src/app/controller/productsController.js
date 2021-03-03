@@ -11,13 +11,16 @@ class ProductController {
         where: {
           [Op.and]: {
             quantity: {
-              [Op.gt]: 1,
+              [Op.gt]: 0,
             },
             active: {
               [Op.eq]: true,
             },
           },
         },
+        order: [
+          ['name', 'ASC'],
+        ],
       });
       return response.status(200).json({ data });
     } catch (err) {
