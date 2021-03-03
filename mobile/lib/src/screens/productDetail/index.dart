@@ -113,6 +113,8 @@ class _ProductDetail extends State<ProductDetail> {
                         child: Column(
                           children: [
                             IconButton(
+                              color: Colors.amber[700],
+                              highlightColor: Colors.blueGrey[100],
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => EditionProduct(
@@ -142,6 +144,7 @@ class _ProductDetail extends State<ProductDetail> {
                         child: Column(
                           children: [
                             IconButton(
+                              highlightColor: Colors.blueGrey[100],
                               onPressed: () async {
                                 var value =
                                     await removeProduct(widget.id, context);

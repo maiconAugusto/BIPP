@@ -9,7 +9,14 @@ class ProductController {
     try {
       const data = await Product.findAll({
         where: {
-          [Op.and]: [{ active: true }],
+          [Op.and]: {
+            quantity: {
+              [Op.gt]: 1,
+            },
+            active: {
+              [Op.eq]: true,
+            },
+          },
         },
       });
       return response.status(200).json({ data });
