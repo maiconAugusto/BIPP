@@ -17,6 +17,6 @@ Dentro da pasta backend, acesse o arquivo .env e configure as variáveis de ambi
 
 Para rodas a aplicação rode yarn start na raiz do projeto.
 
-### Mobile
+### Mobile.
 
 Para rodas a aplicação rode flutter run na raiz do projeto.
