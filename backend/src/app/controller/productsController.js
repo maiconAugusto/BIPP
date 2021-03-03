@@ -9,7 +9,7 @@ class ProductController {
     try {
       const data = await Product.findAll({
         where: {
-          [Op.and]: [{ quantity: { [Op.gt]: 0 } }, { active: true }],
+          [Op.and]: [{ active: true }],
         },
       });
       return response.status(200).json({ data });
@@ -36,8 +36,8 @@ class ProductController {
         price: request.body.price,
         quantity: request.body.quantity,
         active: request.body.active,
-        image_path: request.file === undefined ? null : request.file.path,
-        image_id: request.file === undefined ? null : request.file.filename,
+        image_path: request.file.path,
+        image_id: request.file.filename,
       };
 
       const data = await Product.create(product);
@@ -51,7 +51,6 @@ class ProductController {
   async update(request, response) {
     try {
       const { id } = request.params;
-
       await SearchProductService.run({ id });
 
       const data = await ProductUpdateService.run({

@@ -6,7 +6,6 @@ export default async (request, response, next) => {
       name: Yup.string().required('Nome é obrigatório'),
       description: Yup.string().required('Descrição é obrigatório'),
       price: Yup.number().required('Preço é obrigatório'),
-      quantity: Yup.number().required('Quantidade é obrigatório'),
       active: Yup.boolean().required('Active é obrigatório'),
     });
     await schema.validate(request.body, { abortEarly: false });

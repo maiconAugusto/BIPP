@@ -9,8 +9,11 @@ class ProductUpdateService {
     }
 
     const { path: imagePath, filename: imageId } = file;
-    await Product.update({ where: { id } }, { ...body, image_path: imagePath, image_id: imageId });
-    unlink(body.image_path, () => {});
+    const pathToDelete = body.image_path;
+    await Product.update({
+      ...body, image_path: imagePath, image_id: imageId, active: true,
+    }, { where: { id } });
+    unlink(pathToDelete, () => {});
     return 'Atualizado com sucesso!';
   }
 }

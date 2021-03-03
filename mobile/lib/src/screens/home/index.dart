@@ -79,9 +79,12 @@ class _ListProduct extends State<ListProduct> {
                           builder: (context) => ProductDetail(
                             name: products[index]['name'],
                             imageUrl: products[index]['image_url'],
+                            quantity: products[index]['quantity'],
                             price: double.parse(
                                 products[index]['price'].toStringAsFixed(2)),
                             id: products[index]['id'],
+                            description: products[index]['description'],
+                            imagePath: products[index]['image_path'],
                           ),
                         ))
                             .then((response) {
@@ -89,8 +92,12 @@ class _ListProduct extends State<ListProduct> {
                         });
                       },
                       leading: Container(
-                          height: 40,
-                          child: Image.network(products[index]['image_url'])),
+                        height: 40,
+                        child: Hero(
+                          child: Image.network(products[index]['image_url']),
+                          tag: index.toString(),
+                        ),
+                      ),
                       title: Text(products[index]['name']),
                       subtitle: Text(products[index]['description']),
                       trailing: Text(

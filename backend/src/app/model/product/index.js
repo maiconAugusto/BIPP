@@ -17,12 +17,15 @@ const product = DATABASE.define('product', {
     type: Sequelize.DOUBLE,
     allowNull: false,
   },
-  quantity: { type: Sequelize.INTEGER, allowNull: false },
   active: { type: Sequelize.BOOLEAN, allowNull: false },
-  image_path: { type: Sequelize.STRING, allowNull: true },
+  image_path: { type: Sequelize.STRING, allowNull: false },
   image_id: {
     type: Sequelize.STRING,
-    allowNull: true,
+    allowNull: false,
+  },
+  quantity: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
   },
   image_url: {
     type: Sequelize.VIRTUAL,
@@ -30,7 +33,7 @@ const product = DATABASE.define('product', {
       if (this.image_id === null) {
         return null;
       }
-      return `http://localhost:8080/file/${this.image_id}`;
+      return `http://${process.env.IP_LOCATION}:${process.env.PORT_API}/file/${this.image_id}`;
     },
   },
 });

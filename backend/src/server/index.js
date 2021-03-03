@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import express from 'express';
 import { resolve } from 'path';
 import cors from 'cors';
@@ -16,7 +17,7 @@ class Server {
   middleware() {
     this.server.use(cors());
     this.server.use(express.json());
-    this.server.use(express.urlencoded({ extended: true }));
+    this.server.use(express.urlencoded({ extended: true, limit: '50mb' }));
     this.server.use('/file', express.static(resolve(__dirname, '..', 'uploads')));
   }
 

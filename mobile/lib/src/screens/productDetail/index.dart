@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/src/screens/editionProduct/index.dart';
 import 'package:mobile/src/services/index.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -7,8 +8,19 @@ class ProductDetail extends StatefulWidget {
   final String imageUrl;
   final double price;
   final String id;
+  final int quantity;
+  final String description;
+  final String imagePath;
 
-  const ProductDetail({Key key, this.name, this.imageUrl, this.price, this.id})
+  const ProductDetail(
+      {Key key,
+      this.name,
+      this.imageUrl,
+      this.price,
+      this.id,
+      this.quantity,
+      this.description,
+      this.imagePath})
       : super(key: key);
   @override
   _ProductDetail createState() => _ProductDetail();
@@ -19,6 +31,7 @@ class _ProductDetail extends State<ProductDetail> {
   bool success = false;
 
   Future<bool> removeProduct(String id, BuildContext context) async {
+    bool success = false;
     setState(() {
       loading = true;
     });
@@ -34,6 +47,7 @@ class _ProductDetail extends State<ProductDetail> {
         loading = false;
       });
     });
+
     return success;
   }
 
@@ -44,37 +58,54 @@ class _ProductDetail extends State<ProductDetail> {
           backgroundColor: Color(0XFF0C2338),
           title: Text('Produto'),
         ),
-        body: Column(
+        body: SingleChildScrollView(
+            child: Column(
           children: [
-            Container(
-              height: 200,
-              margin: EdgeInsets.fromLTRB(0, 40, 0, 20),
-              child: Image.network(widget.imageUrl),
+            Hero(
+              child: Container(
+                height: 200,
+                margin: EdgeInsets.all(20),
+                child: Image.network(widget.imageUrl),
+              ),
+              tag: 'image',
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 40),
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 30),
               child: Column(
                 children: [
                   Text(
                     widget.name,
                     style: TextStyle(fontSize: 18),
                   ),
-                  Text(
-                    'R\$' +
-                        ' ' +
-                        widget.price
-                            .toStringAsFixed(2)
-                            .toString()
-                            .replaceAll('.', ','),
-                    style: TextStyle(color: Colors.green, fontSize: 18),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                    child: Text(
+                      widget.description,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                    child: Text(
+                      'R\$' +
+                          ' ' +
+                          widget.price
+                              .toStringAsFixed(2)
+                              .toString()
+                              .replaceAll('.', ','),
+                      style: TextStyle(color: Colors.green, fontSize: 18),
+                    ),
                   ),
                 ],
               ),
             ),
             loading == true
                 ? Container(
+                    width: double.infinity,
                     margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
-                    child: CircularProgressIndicator(),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   )
                 : Row(
                     children: [
@@ -82,14 +113,26 @@ class _ProductDetail extends State<ProductDetail> {
                         child: Column(
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => EditionProduct(
+                                    id: widget.id,
+                                    imageUrl: widget.imageUrl,
+                                    name: widget.name,
+                                    price: widget.price,
+                                    quantity: widget.quantity,
+                                    description: widget.description,
+                                    imagePath: widget.imagePath,
+                                  ),
+                                ));
+                              },
                               icon: Icon(
                                 Icons.edit,
                                 color: Colors.amberAccent[600],
                               ),
                             ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                               child: Text('Editar'),
                             ),
                           ],
@@ -126,9 +169,9 @@ class _ProductDetail extends State<ProductDetail> {
                                 color: Colors.red,
                               ),
                             ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                              child: Text("Deletar"),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                              child: Text('Remover'),
                             ),
                           ],
                         ),
@@ -136,6 +179,6 @@ class _ProductDetail extends State<ProductDetail> {
                     ],
                   ),
           ],
-        ));
+        )));
   }
 }
